@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Resume Creator</title>
+<style>
+/* ---------- GLOBAL ---------- */
+* {
+  box-sizing: border-box;
+  font-family: "Inter", "Segoe UI", Tahoma, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #f5f7fa;
+  color: #222;
+  line-height: 1.6;
+}
+
+/* ---------- FORM PAGE ---------- */
+.form-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1f2937; /* dark neutral background */
+}
+
+.form-container {
+  background: #fff;
+  border-radius: 12px;
+  padding: 40px;
+  width: 90%;
+  max-width: 550px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+.form-container h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-weight: 700;
+  color: #1f2937;
+  letter-spacing: -0.5px;
+}
+
+label {
+  display: block;
+  margin-top: 18px;
+  font-weight: 600;
+  color: #374151;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 15px;
+  background: #f9fafb;
+  transition: all 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #eb3525;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+button {
+  padding: 14px;
+  margin-top: 28px;
+  border: none;
+  border-radius: 6px;
+  background: #eb2525;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background: #af1e2f;
+  transform: translateY(-2px);
+}
+
+/* ---------- RESUME PAGE ---------- */
+.resume-page {
+  display: none;
+  min-height: 100vh;
+  background: #f3f4f6;
+  justify-content: center;
+  padding: 50px 20px;
+}
+
+.resume-container {
+  width: 1000px;
+  max-width: 95%;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.15);
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  overflow: hidden;
+  animation: fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(25px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Sidebar */
+.resume-sidebar {
+  background: #111827;
+  color: #f9fafb;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.resume-sidebar img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+  border: 3px solid #eb2525;
+}
+
+.resume-sidebar h2 {
+  font-size: 1rem;
+  margin: 20px 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 6px;
+}
+
+.resume-sidebar p,
+.resume-sidebar li {
+  font-size: 14px;
+  margin: 6px 0;
+  color: #d1d5db;
+}
+
+.resume-sidebar ul {
+  padding-left: 15px;
+  margin: 0;
+  text-align: left;
+}
+
+/* Main */
+.resume-main {
+  padding: 40px;
+}
+
+.resume-header {
+  border-bottom: 2px solid #e5e7eb;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+}
+
+.resume-header h1 {
+  margin: 0;
+  color: #111827;
+  font-size: 2.4em;
+  font-weight: 700;
+}
+
+.resume-header p {
+  margin: 5px 0;
+  color: #6b7280;
+}
+
+.resume-section {
+  margin-bottom: 30px;
+  padding: 20px;
+  border-radius: 8px;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+}
+
+.resume-section h2 {
+  color: #a82b31;
+  font-size: 1.1em;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.resume-section p {
+  color: #374151;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+/* Buttons */
+.buttons {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.buttons button {
+  width: auto;
+  margin: 10px;
+  background: #dc5d5d;
+  color: white;
+  font-size: 15px;
+  padding: 10px 22px;
+  border-radius: 6px;
+  border: none;
+  transition: background 0.3s ease;
+}
+
+.buttons button:hover {
+  background: #e65c68;
+}
+</style>
+</head>
+<body>
+<div class="form-page" id="formPage">
+<div class="form-container">
+<h1> Resume Builder Page</h1>
+<form id="resumeForm">
+<label>Full Name:</label>
+<input type="text" id="name" placeholder="Enter your full name"
+
+required />
+
+<label>Email:</label>
+<input type="email" id="email" placeholder="example@gmail.com"
+
+required />
+
+<label>Phone:</label>
+<input type="text" id="phone" placeholder="+91 9876543210"
+
+required />
+
+<label>Education:</label>
+<textarea id="education" placeholder="Your education details"
+
+required></textarea>
+
+<label>Skills (comma separated):</label>
+<textarea id="skills" placeholder="e.g. HTML, CSS, JavaScript"
+
+required></textarea>
+
+<label>Experience:</label>
+
+<textarea id="experience" placeholder="Your work experience or
+
+projects" required></textarea>
+
+<button type="submit">Generate Resume →</button>
+</form>
+</div>
+</div>
+<div class="resume-page" id="resumePage">
+<div class="resume-container">
+<div class="resume-sidebar">
+<h2>Contact</h2>
+<p id="rEmail"></p>
+<p id="rPhone"></p>
+<h2>Skills</h2>
+<ul id="rSkills"></ul>
+</div>
+<div class="resume-main">
+<div class="resume-header">
+<h1 id="rName"></h1>
+</div>
+<div class="resume-section">
+<h2> Education</h2>
+<p id="rEducation"></p>
+</div>
+<div class="resume-section">
+<h2> Experience</h2>
+<p id="rExperience"></p>
+</div>
+<div class="buttons">
+<button onclick="window.print()">️ Save as PDF</button>
+<button id="editBtn"> Edit Info</button>
+</div>
+</div>
+</div>
+</div>
+<script>
+const formPage = document.getElementById("formPage");
+const resumePage = document.getElementById("resumePage");
+const form = document.getElementById("resumeForm");
+
+window.addEventListener("load", () => {
+const saved = JSON.parse(localStorage.getItem("resumeData"));
+if (saved) showResume(saved);
+});
+form.addEventListener("submit", (e) => {
+e.preventDefault();
+const data = {
+name: document.getElementById("name").value,
+email: document.getElementById("email").value,
+phone: document.getElementById("phone").value,
+education: document.getElementById("education").value,
+skills: document.getElementById("skills").value,
+experience: document.getElementById("experience").value,
+};
+localStorage.setItem("resumeData", JSON.stringify(data));
+showResume(data);
+});
+function showResume(d) {
+document.getElementById("rName").textContent = d.name;
+document.getElementById("rE-mail").textContent = d.email;
+document.getElementById("rPhone number").textContent = d.phone;
+document.getElementById("rEducation").textContent = d.education;
+document.getElementById("rExperience").textContent = d.experience;
+document.getElementById("rSkills").innerHTML = d.skills
+.split(",")
+.map(s => `<li>${s.trim()}</li>`)
+.join("");
+formPage.style.display = "none";
+resumePage.style.display = "flex";
+}
+document.getElementById("editBtn").addEventListener("click", () => {
+resumePage.style.display = "none";
+formPage.style.display = "flex";
+});
+</script>
+</body>
+
+</html>
